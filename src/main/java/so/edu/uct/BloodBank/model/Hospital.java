@@ -18,6 +18,6 @@ public class Hospital {
 
 
     @ManyToOne(optional = false)
-    @JoinColumn(name="State_Id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name="state_Id", referencedColumnName = "id",nullable = false)
     State state;
 }
