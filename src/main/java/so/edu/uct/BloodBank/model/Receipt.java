@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import org.codehaus.jackson.annotate.JsonBackReference;
 import java.util.Date;
 
 @Entity
@@ -13,14 +13,17 @@ import java.util.Date;
 @AllArgsConstructor
 public class Receipt {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private Date date_birth;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name="bloodTypeId", referencedColumnName = "id")
     BloodType bloodType;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name="State_Id", referencedColumnName = "id")
     State state;

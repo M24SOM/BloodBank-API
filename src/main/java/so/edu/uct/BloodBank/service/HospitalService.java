@@ -12,6 +12,7 @@ public class HospitalService {
     @Autowired
     HospitalRepository hospitalRepository;
 
+
     public List<Hospital> getAllHospitals(){
         return hospitalRepository.findAll();
     }

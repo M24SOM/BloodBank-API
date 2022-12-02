@@ -28,8 +28,8 @@ public class HospitalController {
     }
 
     @PutMapping("/hospital/{id}")
-    public Hospital updateHospital(@RequestBody Hospital hospital, @PathVariable String id) {
-        Hospital UpHospital = hospitalService.getHospitalById(Long.valueOf(id));
+    public Hospital updateHospital(@RequestBody Hospital hospital, @PathVariable Long id) {
+        Hospital UpHospital = hospitalService.getHospitalById(id);
         UpHospital.setName(hospital.getName());
         return hospitalService.saveHospital(UpHospital);
     };
