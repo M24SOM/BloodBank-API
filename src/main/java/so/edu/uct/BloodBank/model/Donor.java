@@ -16,8 +16,9 @@ public class Donor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Date date_birth;
+    private Date dateBirth;
     private String weight;
+    private String mobileNo;
 
     @JsonBackReference
     @ManyToOne(optional = false)
@@ -25,7 +26,7 @@ public class Donor {
     BloodType bloodType;
     @JsonBackReference
     @ManyToOne(optional = false)
-    @JoinColumn(name="State_Id", referencedColumnName = "id")
+    @JoinColumn(name="StateId", referencedColumnName = "id")
     State state;
-    private Boolean is_healthy;
+    private Boolean isHealthy;
 }

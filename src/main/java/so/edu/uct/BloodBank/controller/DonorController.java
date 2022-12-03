@@ -21,6 +21,11 @@ public class DonorController {
         return donorService.getDonorById(id);
     }
 
+    @GetMapping("/donor/phone/{phone}")
+    public List<Donor> getDonorByPhone(@PathVariable String phone){
+        return donorService.getDonorByMobileNo(phone);
+    }
+
     @PostMapping("/donor")
     public Donor saveDonor(@RequestBody Donor donor){
         return donorService.saveDonor(donor);
@@ -28,16 +33,22 @@ public class DonorController {
 
     @PutMapping("/donor/{id}")
     public Donor updateDonor(@RequestBody Donor donor, @PathVariable Long id) {
-        Donor UpHospital = donorService.getDonorById(id);
-        UpHospital.setName(donor.getName());
-        return donorService.saveDonor(UpHospital);
+        Donor UpDonor = donorService.getDonorById(id);
+        UpDonor.setName(donor.getName());
+        UpDonor.setBloodType(donor.getBloodType());
+        UpDonor.setDateBirth(donor.getDateBirth());
+        UpDonor.setWeight(donor.getWeight());
+        UpDonor.setMobileNo(donor.getMobileNo());
+        UpDonor.setState(donor.getState());
+        UpDonor.setIsHealthy(donor.getIsHealthy());
+        return donorService.saveDonor(UpDonor);
     };
 
     @DeleteMapping("donor/{id}")
     public Donor deleteDonor(@PathVariable Long id){
-        Donor deleteHospital = donorService.getDonorById(id);
+        Donor deleteDonor = donorService.getDonorById(id);
         donorService.deleteDonor(id);
-        return deleteHospital;
+        return deleteDonor;
     }
 
 }

@@ -19,6 +19,10 @@ public class DonorService {
         return donorRepository.findById(id).get();
     }
 
+    public List<Donor> getDonorByMobileNo(String phone){
+        return donorRepository.findByMobileNo(phone);
+    }
+
     public Donor saveDonor(Donor donor){
         return donorRepository.save(donor);
     }

@@ -16,7 +16,8 @@ public class Receipt {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private Date date_birth;
+    private Date dateBirth;
+    private String mobileNo;
 
     @JsonBackReference
     @ManyToOne(optional = false)

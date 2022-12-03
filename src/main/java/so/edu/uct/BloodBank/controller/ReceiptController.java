@@ -23,6 +23,11 @@ public class ReceiptController {
         return receiptService.getReceiptById(id);
     }
 
+    @GetMapping("/receipt/phone/{phone}")
+    public List<Receipt> getReceiptByPhone(@PathVariable String phone){
+        return receiptService.getReceiptByPhone(phone);
+    }
+
     @PostMapping("/receipt")
     public Receipt saveReceipt(@RequestBody Receipt receipt){
         return receiptService.saveReceipt(receipt);
@@ -30,16 +35,20 @@ public class ReceiptController {
 
     @PutMapping("/receipt/{id}")
     public Receipt updateReceipt(@RequestBody Receipt receipt, @PathVariable Long id) {
-        Receipt UpHospital = receiptService.getReceiptById(id);
-        UpHospital.setName(receipt.getName());
-        return receiptService.saveReceipt(UpHospital);
+        Receipt UpReceipt = receiptService.getReceiptById(id);
+        UpReceipt.setName(receipt.getName());
+        UpReceipt.setDateBirth(receipt.getDateBirth());
+        UpReceipt.setMobileNo(receipt.getMobileNo());
+        UpReceipt.setBloodType(receipt.getBloodType());
+        UpReceipt.setState(receipt.getState());
+        return receiptService.saveReceipt(UpReceipt);
     };
 
     @DeleteMapping("receipt/{id}")
     public Receipt deleteReceipt(@PathVariable Long id){
-        Receipt deleteHospital = receiptService.getReceiptById(id);
+        Receipt deleteReceipt = receiptService.getReceiptById(id);
         receiptService.deleteReceipt(id);
-        return deleteHospital;
+        return deleteReceipt;
     }
 
 }

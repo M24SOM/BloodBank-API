@@ -20,6 +20,10 @@ public class ReceiptService {
         return receiptRepository.findById(id).get();
     }
 
+    public List<Receipt> getReceiptByPhone(String phone){
+        return receiptRepository.findByMobileNo(phone);
+    }
+
     public Receipt saveReceipt(Receipt donor){
         return receiptRepository.save(donor);
     }

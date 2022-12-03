@@ -31,6 +31,7 @@ public class HospitalController {
     public Hospital updateHospital(@RequestBody Hospital hospital, @PathVariable Long id) {
         Hospital UpHospital = hospitalService.getHospitalById(id);
         UpHospital.setName(hospital.getName());
+        UpHospital.setState(hospital.getState());
         return hospitalService.saveHospital(UpHospital);
     };
 
