@@ -1,4 +1,4 @@
-package so.edu.uct.BloodBank.controller;
+package so.edu.uct.BloodBank.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import so.edu.uct.BloodBank.model.Donor;
@@ -7,7 +7,7 @@ import java.util.List;
 
 @RestController
 //@RequestMapping("/donor")
-public class DonorController {
+public class DonorResource {
     @Autowired
     DonorService donorService;
 

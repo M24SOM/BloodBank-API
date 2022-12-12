@@ -1,4 +1,4 @@
-package so.edu.uct.BloodBank.controller;
+package so.edu.uct.BloodBank.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import so.edu.uct.BloodBank.model.State;
@@ -7,7 +7,7 @@ import so.edu.uct.BloodBank.service.StateService;
 import java.util.List;
 @RestController
 //@RequestMapping("/state")
-public class StateController {
+public class StateResource {
     @Autowired
     StateService stateService;
 

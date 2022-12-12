@@ -1,4 +1,4 @@
-package so.edu.uct.BloodBank.controller;
+package so.edu.uct.BloodBank.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 //@RequestMapping("/receipt")
-public class ReceiptController {
+public class ReceiptResource {
     @Autowired
     ReceiptService receiptService;
 
