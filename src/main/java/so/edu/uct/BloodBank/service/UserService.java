@@ -3,6 +3,7 @@ package so.edu.uct.BloodBank.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import so.edu.uct.BloodBank.model.User;
@@ -28,22 +29,11 @@ public class UserService {
     }
 
 
-    public UserDetails getUserByUsername(String username){
-        User user = userRepository.findByUsername(username);
-        if (user == null){
-            throw new UsernameNotFoundException("User not Found in The Database");
-        }
-        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority(role.getName()));
-        });
 
-        return  new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
-    }
 
 
     public User getUserByUsernameU(String username){
-       return  userRepository.findByUsername(username);
+       return (User) userRepository.findByUsername(username);
     }
 
     public User saveUser(User user){

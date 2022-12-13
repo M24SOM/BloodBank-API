@@ -26,7 +26,7 @@ public class DonorResource {
         return donorService.getDonorByMobileNo(phone);
     }
 
-    @PostMapping("/donor")
+    @PostMapping("/donor/add")
     public Donor saveDonor(@RequestBody Donor donor){
         return donorService.saveDonor(donor);
     }

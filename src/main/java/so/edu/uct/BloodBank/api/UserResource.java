@@ -2,23 +2,33 @@ package so.edu.uct.BloodBank.api;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import so.edu.uct.BloodBank.config.JwtUtil;
-import so.edu.uct.BloodBank.dto.AuthenticationRequest;
+import so.edu.uct.BloodBank.config.JwtUtils;
+import so.edu.uct.BloodBank.dao.TokenDao;
+import so.edu.uct.BloodBank.dao.UserDao;
+import so.edu.uct.BloodBank.dto.LoginRequest;
+import so.edu.uct.BloodBank.entites.UserModel;
 import so.edu.uct.BloodBank.model.Role;
+import so.edu.uct.BloodBank.model.Token;
 import so.edu.uct.BloodBank.model.User;
+import so.edu.uct.BloodBank.repository.UserRepository;
 import so.edu.uct.BloodBank.service.RoleService;
 import so.edu.uct.BloodBank.service.UserService;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-@RestController @RequiredArgsConstructor
+@RestController @RequiredArgsConstructor @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/auth")
 public class UserResource {
     @Autowired
@@ -27,9 +37,20 @@ public class UserResource {
     RoleService roleService;
     @Autowired
     private final AuthenticationManager authenticationManager;
-    private final UserDetailsService userDetailsService;
+    @Autowired
+    UserDao userDao;
 
-    private final JwtUtil jwtUtil;
+    @Autowired
+    JwtUtils jwtUtils;
+
+    @Autowired
+    TokenDao tokenDao;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserRepository userRepository;
+
 
     // 1. Get All Users
     @GetMapping("/users")
@@ -40,20 +61,29 @@ public class UserResource {
     // 2. Get User By ID
     @GetMapping("/user/{id}")
     public ResponseEntity<User> getUserById(@PathVariable Long id){
-        return ResponseEntity.ok().body(userService.getUserById(id));
+        return ResponseEntity.ok().body( userService.getUserById(id));
     }
 
     // 3. Get User By ID
     @GetMapping("/user/{username}")
-    public ResponseEntity<UserDetails> getUserByUsername(@PathVariable String username){
-        return ResponseEntity.ok().body(userService.getUserByUsername(username));
+    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
+        System.out.println(userService.getUserByUsernameU(username));
+        return ResponseEntity.ok().body(userService.getUserByUsernameU(username));
     }
 
 
     // 4. Add User
-    @PostMapping("/user/add")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        return  ResponseEntity.status(201).body(userService.saveUser(user));
+    @PostMapping("/user/Register")
+    public @ResponseBody Object register(@RequestBody UserModel userModel)
+    {
+        if (userRepository.findByUsername(userModel.getUsername()) == null) {
+            userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            return userDao.create(userModel);
+        }
+        Map<String, String> lhm = new LinkedHashMap<>();
+        lhm.put("message", "User with this username already exists!");
+
+        return ResponseEntity.status(400).body(lhm);
     }
 
     // 5. Change Password
@@ -76,19 +106,25 @@ public class UserResource {
 
     // 7. Login
 
-    @PostMapping("/user/login")
-    public ResponseEntity<String> login(@RequestBody AuthenticationRequest request){
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        final UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
 
-        if (user != null) {
-            return ResponseEntity.ok().body(jwtUtil.generateToken(user.getUsername()));
-        }
-        else {
-            return ResponseEntity.status(404).body("Bad Credential, please try again.");
-        }
+    @PostMapping("/user/Login")
+    public  ResponseEntity<?> login(@RequestBody LoginRequest loginRequest)
+    {
 
+        Authentication authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User user = (User) authentication.getPrincipal();
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie((User) userDetails);
+        Token refreshToken = tokenDao.createRefreshToken(user.getId());
+        String accessToken = jwtUtils.generateTokenFromUsername(user.getUsername());
+        ResponseCookie jwtRefreshCookie = jwtUtils.generateRefreshJwtCookie(refreshToken.getToken());
+        return  ResponseEntity.ok().body("accessToken");
+//        return ResponseEntity.ok()
+//                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+//                .header(HttpHeaders.SET_COOKIE, jwtRefreshCookie.toString())
+//                .body(accessToken);
     }
 
     // 7. Save Role
@@ -100,12 +136,12 @@ public class UserResource {
 
 
     // 8. Add Role To a User
-    @PutMapping("/role/addToUser")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleUserForm form){
-        roleService.addRoleToUser(form.getUsername(), form.getRoleName());
-        return  ResponseEntity.ok().build();
-
-    }
+//    @PutMapping("/role/addToUser")
+//    public ResponseEntity<?> addRoleToUser(@RequestBody RoleUserForm form){
+//        roleService.addRoleToUser(form.getUsername(), form.getRoleName());
+//        return  ResponseEntity.ok().build();
+//
+//    }
 
 
 }

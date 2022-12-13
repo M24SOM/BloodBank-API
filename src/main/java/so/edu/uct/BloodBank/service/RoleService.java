@@ -33,11 +33,7 @@ public class RoleService {
         return roleRepository.save(role);
     }
 
-    public void addRoleToUser(String username,String roleName){
-        User user =  userRepository.findByUsername(username);
-        Role role =  roleRepository.findByName(roleName);
-        user.getRoles().add(role);
-    }
+
 
     public void deleteRole(Long id){
         roleRepository.deleteById(id);

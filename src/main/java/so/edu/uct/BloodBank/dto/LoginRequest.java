@@ -1,15 +1,14 @@
 package so.edu.uct.BloodBank.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@ToString
+@AllArgsConstructor
 @NoArgsConstructor
-
-public class AuthenticationRequest {
-
+public class LoginRequest {
     private String username;
     private String password;
+
 }

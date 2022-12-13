@@ -20,7 +20,6 @@ public class BloodBankApplication {
 		SpringApplication.run(BloodBankApplication.class, args);
 	}
 
-//
 
 //	@Bean
 //	CommandLineRunner run(UserService userService, RoleService roleService){
