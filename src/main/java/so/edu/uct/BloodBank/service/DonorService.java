@@ -23,6 +23,14 @@ public class DonorService {
         return donorRepository.findByMobileNo(phone);
     }
 
+    public List<Donor> getDonorByState(String phone){
+        return donorRepository.findByState(phone);
+    }
+
+    public Long sumOfDonor(){
+        return donorRepository.sumOfDonor();
+    }
+
     public Donor saveDonor(Donor donor){
         return donorRepository.save(donor);
     }

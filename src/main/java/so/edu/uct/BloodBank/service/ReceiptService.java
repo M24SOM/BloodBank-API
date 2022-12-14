@@ -23,6 +23,9 @@ public class ReceiptService {
     public List<Receipt> getReceiptByPhone(String phone){
         return receiptRepository.findByMobileNo(phone);
     }
+    public Long sumOfReceipt(){
+        return receiptRepository.sumOfReceipt();
+    }
 
     public Receipt saveReceipt(Receipt donor){
         return receiptRepository.save(donor);

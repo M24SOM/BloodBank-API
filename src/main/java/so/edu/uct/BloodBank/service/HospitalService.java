@@ -16,7 +16,9 @@ public class HospitalService {
     public List<Hospital> getAllHospitals(){
         return hospitalRepository.findAll();
     }
-
+    public Long sumOfHospital(){
+        return hospitalRepository.sumOfHospital();
+    }
 
     public Hospital getHospitalById(Long id){
         return hospitalRepository.findById(id).get();

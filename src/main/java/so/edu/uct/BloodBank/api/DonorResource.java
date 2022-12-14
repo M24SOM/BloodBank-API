@@ -26,6 +26,11 @@ public class DonorResource {
         return donorService.getDonorByMobileNo(phone);
     }
 
+    @GetMapping("/donor/state/{state}")
+    public List<Donor> getDonorByState(@PathVariable String state){
+        return donorService.getDonorByState(state);
+    }
+
     @PostMapping("/donor/add")
     public Donor saveDonor(@RequestBody Donor donor){
         return donorService.saveDonor(donor);

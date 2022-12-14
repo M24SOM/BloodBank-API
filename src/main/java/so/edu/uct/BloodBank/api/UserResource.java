@@ -145,11 +145,7 @@ public class UserResource {
 
 
 }
-@Data
-class RoleUserForm {
-    private String username;
-    private String roleName;
-}
+
 
 
 
