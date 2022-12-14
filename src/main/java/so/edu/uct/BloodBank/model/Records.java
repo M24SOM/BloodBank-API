@@ -1,12 +1,11 @@
 package so.edu.uct.BloodBank.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import java.sql.Date;
 
-import java.util.Date;
 
 @Entity
 @Data
@@ -31,7 +30,7 @@ public class Records {
     @JoinColumn(name="receiptId", referencedColumnName = "id")
     Receipt receipt;
 
-
-    private Date date;
+    @Column(name="created_at")
+    private Date createdAt;
 }
 

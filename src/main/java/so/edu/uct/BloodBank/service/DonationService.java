@@ -18,9 +18,6 @@ public class DonationService {
         return donationRepository.findByBloodType();
     }
 
-
-
-
     public Donation getDonationById(Long id){
         return donationRepository.findById(id).get();
     }

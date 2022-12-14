@@ -3,13 +3,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import so.edu.uct.BloodBank.model.Donor;
 import so.edu.uct.BloodBank.service.DonorService;
+import so.edu.uct.BloodBank.service.StateService;
+
 import java.util.List;
 
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/donor")
 public class DonorResource {
     @Autowired
     DonorService donorService;
+
+    @Autowired
+    StateService stateService;
 
     @GetMapping("/donor")
     public List<Donor> allDonor(){
@@ -26,10 +31,19 @@ public class DonorResource {
         return donorService.getDonorByMobileNo(phone);
     }
 
-    @GetMapping("/donor/state/{state}")
-    public List<Donor> getDonorByState(@PathVariable String state){
-        return donorService.getDonorByState(state);
-    }
+//    @GetMapping("/donor/state/{state}")
+//    public List<Donor> getDonorByState(@PathVariable Long state){
+//        State findbyState = stateService.getStateById(state);
+//        System.out.println(findbyState.getName());
+//        System.out.println(donorService.getDonorByState(findbyState));
+//        return donorService.getDonorByState(findbyState);
+//    }
+
+//    @GetMapping("/donor/state/{state}")
+//    public List<Donor> getDonorByState(@PathVariable Long state){
+//        return donorService.getDonorByState(state);
+//    }
+
 
     @PostMapping("/donor/add")
     public Donor saveDonor(@RequestBody Donor donor){

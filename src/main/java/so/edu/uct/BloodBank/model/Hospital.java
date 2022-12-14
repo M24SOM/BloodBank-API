@@ -3,6 +3,8 @@ import lombok.*;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonBackReference;
 
+import java.util.Date;
+
 
 @Entity
 @Data
@@ -18,4 +20,7 @@ public class Hospital{
     @ManyToOne(optional = false)
     @JoinColumn(name="state_Id", referencedColumnName = "id")
     State state;
+
+    @Column(name="created_at")
+    private Date createdAt;
 }

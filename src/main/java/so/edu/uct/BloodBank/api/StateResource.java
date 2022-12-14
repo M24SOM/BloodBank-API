@@ -5,7 +5,7 @@ import so.edu.uct.BloodBank.model.State;
 import so.edu.uct.BloodBank.service.StateService;
 
 import java.util.List;
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/state")
 public class StateResource {
     @Autowired

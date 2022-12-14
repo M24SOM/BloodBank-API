@@ -10,7 +10,7 @@ public interface ReceiptRepository extends JpaRepository<Receipt,Long> {
     List<Receipt> findByMobileNo(String mobileNo);
 
 
-    @Query(value = "SELECT sum(id) FROM Receipt",nativeQuery = true)
+    @Query(value = "SELECT count(id) FROM Receipt",nativeQuery = true)
 
     Long sumOfReceipt();
 

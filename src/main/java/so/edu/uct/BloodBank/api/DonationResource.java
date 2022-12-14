@@ -7,7 +7,7 @@ import so.edu.uct.BloodBank.service.DonationService;
 
 import java.util.List;
 
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/donation")
 public class DonationResource {
     @Autowired
@@ -36,8 +36,8 @@ public class DonationResource {
         UpDonation.setCc(donation.getCc());
         UpDonation.setBloodType(donation.getBloodType());
         UpDonation.setDonor(donation.getDonor());
-        UpDonation.setBloodType(donation.getBloodType());
         UpDonation.setType(donation.getType());
+        UpDonation.setDate(donation.getDate());
         return donationService.saveDonation(UpDonation);
     };
 

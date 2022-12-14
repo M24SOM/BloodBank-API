@@ -1,11 +1,11 @@
 package so.edu.uct.BloodBank.model;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonBackReference;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -28,4 +28,7 @@ public class Receipt {
     @ManyToOne(optional = false)
     @JoinColumn(name="State_Id", referencedColumnName = "id")
     State state;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 }

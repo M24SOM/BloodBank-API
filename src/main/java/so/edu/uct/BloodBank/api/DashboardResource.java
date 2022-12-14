@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/state")
 public class DashboardResource {
     @Autowired

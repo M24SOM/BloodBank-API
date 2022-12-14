@@ -5,9 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-
+import java.time.LocalDateTime;
 import java.util.List;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -34,4 +33,7 @@ public class State {
     @OneToMany(mappedBy = "state", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Receipt> receipts;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 }

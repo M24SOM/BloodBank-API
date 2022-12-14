@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-
 import java.util.List;
 
 @Entity

@@ -3,7 +3,7 @@ package so.edu.uct.BloodBank.dao;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import so.edu.uct.BloodBank.entites.UserModel;
+import so.edu.uct.BloodBank.dto.UserModel;
 import so.edu.uct.BloodBank.model.User;
 import so.edu.uct.BloodBank.repository.UserRepository;
 

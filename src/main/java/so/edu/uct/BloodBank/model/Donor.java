@@ -1,11 +1,11 @@
 package so.edu.uct.BloodBank.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonBackReference;
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -29,4 +29,7 @@ public class Donor {
     @JoinColumn(name="StateId", referencedColumnName = "id")
     State state;
     private Boolean isHealthy;
+
+    @Column(name="created_at")
+    private LocalDateTime createdAt;
 }

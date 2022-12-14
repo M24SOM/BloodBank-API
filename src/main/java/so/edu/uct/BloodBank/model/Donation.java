@@ -1,11 +1,11 @@
 package so.edu.uct.BloodBank.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonBackReference;
-import java.util.Date;
+
+import java.sql.Date;
 
 @Entity
 @Data
@@ -29,7 +29,6 @@ public class Donation {
     @ManyToOne(optional = false)
     @JoinColumn(name="donorId", referencedColumnName = "id")
     Donor donor;
-
 
     private Date date;
 }

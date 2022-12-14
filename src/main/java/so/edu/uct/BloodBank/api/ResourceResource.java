@@ -7,7 +7,7 @@ import so.edu.uct.BloodBank.service.RecordService;
 
 import java.util.List;
 
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/record")
 public class ResourceResource {
     @Autowired

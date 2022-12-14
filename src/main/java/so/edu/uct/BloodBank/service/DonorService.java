@@ -2,9 +2,12 @@ package so.edu.uct.BloodBank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import so.edu.uct.BloodBank.dto.DonorDTO;
 import so.edu.uct.BloodBank.model.Donor;
+import so.edu.uct.BloodBank.model.State;
 import so.edu.uct.BloodBank.repository.DonorRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DonorService {
@@ -23,9 +26,16 @@ public class DonorService {
         return donorRepository.findByMobileNo(phone);
     }
 
-    public List<Donor> getDonorByState(String phone){
-        return donorRepository.findByState(phone);
-    }
+//    public List<DonorDTO> getDonorByState(Long query){
+//        DonorDTO donorDTO =  donorRepository.findByState(query).stream()
+//                .map(donors -> {
+//                    DonorDTO donorDTO1 = new DonorDTO();
+//                    donorDTO1.setName(donors.getName());
+//                    donorDTO1.setState(donors.getState().getName());
+//                    return donorDTO1;
+//                } ).collect(Collectors.toList());
+//        return ;
+//    }
 
     public Long sumOfDonor(){
         return donorRepository.sumOfDonor();

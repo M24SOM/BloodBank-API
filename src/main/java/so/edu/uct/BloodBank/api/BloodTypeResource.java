@@ -3,10 +3,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import so.edu.uct.BloodBank.model.BloodType;
 import so.edu.uct.BloodBank.service.BloodTypeService;
-
 import java.util.List;
 
-@RestController
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
 //@RequestMapping("/bloodType")
 public class BloodTypeResource {
     @Autowired

@@ -3,6 +3,7 @@ package so.edu.uct.BloodBank.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import so.edu.uct.BloodBank.model.Donor;
+import so.edu.uct.BloodBank.model.State;
 
 import java.util.List;
 
@@ -10,14 +11,15 @@ public interface DonorRepository extends JpaRepository<Donor,Long> {
 
     List<Donor> findByMobileNo(String mobileNo);
 
-    @Query(value = "SELECT * FROM donor b WHERE " +
-            "b.StateId LIKE CONCAT('%',:query,'%')",nativeQuery = true)
+//    @Query(value = "select * from Donor where state_id = 2",nativeQuery = true)
 
-    List<Donor> findByState(String query);
-//    List<Donor> findByState(String state);
+    @Query(value = "select * from Donor d where d.StateId = :state", nativeQuery = true)
+//    List<Donor> findByStateId(@Param("state_id")String query);
 
-    @Query(value = "SELECT sum(id) FROM Donor",nativeQuery = true)
+    List<Donor> findByState(Long state);
 
+
+    @Query(value = "SELECT count(id) FROM Donor",nativeQuery = true)
     Long sumOfDonor();
 
 }
