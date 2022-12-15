@@ -43,7 +43,7 @@ public class UserResource {
     @PutMapping(value = "/{id}")
     public User updateUser(@RequestBody User user, @PathVariable Long id) {
         User updatedUser = userService.getUserById(id);
-        updatedUser.setName(user.getName());
+        updatedUser.setPassword(user.getPassword());
         return userService.saveUser(updatedUser);
     };
 
