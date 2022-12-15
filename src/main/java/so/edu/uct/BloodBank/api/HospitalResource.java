@@ -7,35 +7,44 @@ import so.edu.uct.BloodBank.service.HospitalService;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/hospital")
+@RequestMapping("/hospital")
 public class HospitalResource {
     @Autowired
     HospitalService hospitalService;
 
-    @GetMapping("/hospital")
+    // 1. Get All Hospitals
+
+    @GetMapping()
     public List<Hospital> allHospital(){
         return hospitalService.getAllHospitals();
     }
 
-    @GetMapping("/hospital/{id}")
+    // 2. Get Specific Hospital By ID
+
+    @GetMapping(value = "/{id}")
     public Hospital getHospital(@PathVariable Long id){
         return hospitalService.getHospitalById(id);
     }
+    // 3. Save Hospital
 
-    @PostMapping("/hospital")
+
+    @PostMapping()
     public Hospital saveHospital(@RequestBody Hospital hospital){
         return hospitalService.saveHospital(hospital);
     }
 
-    @PutMapping("/hospital/{id}")
-    public Hospital updateHospital(@RequestBody Hospital hospital, @PathVariable Long id) {
-        Hospital UpHospital = hospitalService.getHospitalById(id);
-        UpHospital.setName(hospital.getName());
-        UpHospital.setState(hospital.getState());
-        return hospitalService.saveHospital(UpHospital);
-    };
+    // 4. Update Specific Hospital By ID
 
-    @DeleteMapping("hospital/{id}")
+    @PutMapping(value = "/{id}")
+    public Hospital updateHospital(@RequestBody Hospital hospital, @PathVariable Long id) {
+        Hospital updatedHospital = hospitalService.getHospitalById(id);
+        updatedHospital.setName(hospital.getName());
+        updatedHospital.setState(hospital.getState());
+        return hospitalService.saveHospital(updatedHospital);
+    };
+    // 5. Delete Specific Hospital By ID
+
+    @DeleteMapping(value = "/{id}")
     public Hospital deleteHospital(@PathVariable Long id){
         Hospital deleteHospital = hospitalService.getHospitalById(id);
         hospitalService.deleteHospital(id);

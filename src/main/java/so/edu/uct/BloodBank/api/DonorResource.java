@@ -8,62 +8,59 @@ import so.edu.uct.BloodBank.service.StateService;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/donor")
+@RequestMapping("/donor")
 public class DonorResource {
     @Autowired
     DonorService donorService;
 
-    @Autowired
-    StateService stateService;
 
-    @GetMapping("/donor")
+    // 1. Get All Donors
+
+    @GetMapping()
     public List<Donor> allDonor(){
         return donorService.getAllDonors();
     }
 
-    @GetMapping("/donor/{id}")
+    // 2. Get Specific Donor By ID
+
+    @GetMapping(value = "/{id}")
     public Donor getDonor(@PathVariable Long id){
         return donorService.getDonorById(id);
     }
 
-    @GetMapping("/donor/phone/{phone}")
+    // 3. Get Specific Donor By phone
+
+    @GetMapping(value = "/phone/{phone}")
     public List<Donor> getDonorByPhone(@PathVariable String phone){
         return donorService.getDonorByMobileNo(phone);
     }
 
-//    @GetMapping("/donor/state/{state}")
-//    public List<Donor> getDonorByState(@PathVariable Long state){
-//        State findbyState = stateService.getStateById(state);
-//        System.out.println(findbyState.getName());
-//        System.out.println(donorService.getDonorByState(findbyState));
-//        return donorService.getDonorByState(findbyState);
-//    }
+    // 4. Save Donor
 
-//    @GetMapping("/donor/state/{state}")
-//    public List<Donor> getDonorByState(@PathVariable Long state){
-//        return donorService.getDonorByState(state);
-//    }
-
-
-    @PostMapping("/donor/add")
+    @PostMapping(value = "/add")
     public Donor saveDonor(@RequestBody Donor donor){
         return donorService.saveDonor(donor);
     }
 
-    @PutMapping("/donor/{id}")
+
+    // 5. Update Specific Donor By ID
+
+    @PutMapping(value = "/{id}")
     public Donor updateDonor(@RequestBody Donor donor, @PathVariable Long id) {
-        Donor UpDonor = donorService.getDonorById(id);
-        UpDonor.setName(donor.getName());
-        UpDonor.setBloodType(donor.getBloodType());
-        UpDonor.setDateBirth(donor.getDateBirth());
-        UpDonor.setWeight(donor.getWeight());
-        UpDonor.setMobileNo(donor.getMobileNo());
-        UpDonor.setState(donor.getState());
-        UpDonor.setIsHealthy(donor.getIsHealthy());
-        return donorService.saveDonor(UpDonor);
+        Donor updatedDonor = donorService.getDonorById(id);
+        updatedDonor.setName(donor.getName());
+        updatedDonor.setBloodType(donor.getBloodType());
+        updatedDonor.setDateBirth(donor.getDateBirth());
+        updatedDonor.setWeight(donor.getWeight());
+        updatedDonor.setMobileNo(donor.getMobileNo());
+        updatedDonor.setState(donor.getState());
+        updatedDonor.setIsHealthy(donor.getIsHealthy());
+        return donorService.saveDonor(updatedDonor);
     };
 
-    @DeleteMapping("donor/{id}")
+    // 6. Delete Specific Donor By ID
+
+    @DeleteMapping(value = "/{id}")
     public Donor deleteDonor(@PathVariable Long id){
         Donor deleteDonor = donorService.getDonorById(id);
         donorService.deleteDonor(id);

@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonManagedReference;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -30,4 +33,11 @@ public class BloodType {
     @OneToMany(mappedBy = "bloodType", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Receipt> receipts;
+
+
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

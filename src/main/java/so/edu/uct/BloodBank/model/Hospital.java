@@ -2,8 +2,10 @@ package so.edu.uct.BloodBank.model;
 import lombok.*;
 import jakarta.persistence.*;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.util.Date;
+import java.sql.Date;
 
 
 @Entity
@@ -21,6 +23,9 @@ public class Hospital{
     @JoinColumn(name="state_Id", referencedColumnName = "id")
     State state;
 
-    @Column(name="created_at")
+    @CreationTimestamp
     private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

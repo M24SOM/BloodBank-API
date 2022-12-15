@@ -8,48 +8,57 @@ import so.edu.uct.BloodBank.service.RecordService;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/record")
-public class ResourceResource {
+@RequestMapping("/record")
+public class RecordResource {
     @Autowired
     RecordService recordService;
 
-    @GetMapping("/record")
+    // 1. Get All Records
+
+    @GetMapping()
     public List<Records> allRecords(){
         return recordService.getAllRecords();
     }
 
-    @GetMapping("/record/{id}")
+    // 2. Get Specific Record By ID
+
+    @GetMapping(value = "/{id}")
     public Records getRecord(@PathVariable Long id){
         return recordService.getRecordById(id);
     }
 
+    // 3. Save Record
 
-    @PostMapping("/record/add")
+
+    @PostMapping(value = "/add")
     public Records saveRecord(@RequestBody Records records){
 
         return recordService.saveRecord(records);
     }
 
-    @PutMapping("/record/{id}")
-    public Records updateRecord(@RequestBody Records records, @PathVariable Long id) {
-        Records UpDonation = recordService.getRecordById(id);
-        UpDonation.setCc(records.getCc());
-        UpDonation.setBloodType(records.getBloodType());
-        UpDonation.setReceipt(records.getReceipt());
-        UpDonation.setBloodType(records.getBloodType());
-        UpDonation.setType(records.getType());
-        return recordService.saveRecord(UpDonation);
-    };
+    // 4. Update Specific Record By ID
 
-    @DeleteMapping("record/{id}")
+    @PutMapping(value = "/{id}")
+    public Records updateRecord(@RequestBody Records records, @PathVariable Long id) {
+        Records updatedRecord = recordService.getRecordById(id);
+        updatedRecord.setCc(records.getCc());
+        updatedRecord.setBloodType(records.getBloodType());
+        updatedRecord.setReceipt(records.getReceipt());
+        updatedRecord.setDate(records.getDate());
+        return recordService.saveRecord(updatedRecord);
+    };
+    // 5. Delete Specific Record By ID
+
+    @DeleteMapping(value = "/{id}")
     public Records deleteRecord(@PathVariable Long id){
         Records deleteRecord = recordService.getRecordById(id);
         recordService.deleteRecord(id);
         return deleteRecord;
     }
+    // 6. Get Sum of Record Cc // Test
 
-    @GetMapping("/record/bloodTypeCc/{query}")
-    public Long getRecordBloodTypeCc(@PathVariable Long query){
+    @GetMapping(value = "/bloodTypeCc")
+    public Long getRecordBloodTypeCc(){
         System.out.println(recordService.getRecordBloodTypeCc());
         return recordService.getRecordBloodTypeCc();
     }

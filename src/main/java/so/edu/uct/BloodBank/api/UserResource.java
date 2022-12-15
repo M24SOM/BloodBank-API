@@ -1,132 +1,75 @@
 package so.edu.uct.BloodBank.api;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import so.edu.uct.BloodBank.config.JwtUtils;
-import so.edu.uct.BloodBank.dao.UserDao;
 import so.edu.uct.BloodBank.dto.LoginRequest;
-import so.edu.uct.BloodBank.dto.UserModel;
 import so.edu.uct.BloodBank.model.User;
-import so.edu.uct.BloodBank.repository.UserRepository;
 import so.edu.uct.BloodBank.service.UserService;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
-@RestController @RequiredArgsConstructor @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/auth")
+import java.util.List;
+import java.util.Objects;
+
+@RestController @CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("/user")
 public class UserResource {
     @Autowired
     UserService userService;
-    @Autowired
-    private final AuthenticationManager authenticationManager;
-    @Autowired
-    UserDao userDao;
-
-    @Autowired
-    JwtUtils jwtUtils;
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
-    @Autowired
-    private UserRepository userRepository;
-
 
     // 1. Get All Users
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok().body(userService.getAllUsers());
-    }
 
-    // 2. Get User By ID
-    @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
-        return ResponseEntity.ok().body( userService.getUserById(id));
-    }
-
-    // 3. Get User By ID
-    @GetMapping("/user/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username){
-        System.out.println(userService.getUserByUsernameU(username));
-        return ResponseEntity.ok().body(userService.getUserByUsernameU(username));
+    @GetMapping()
+    public List<User> allUsers(){
+        return userService.getAllUsers();
     }
 
 
-    // 4. Add User
-    @PostMapping("/user/Register")
-    public @ResponseBody Object register(@RequestBody UserModel userModel)
-    {
-        if (userRepository.findByUsername(userModel.getUsername()) == null) {
-            userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
-            return userDao.create(userModel);
-        }
-        Map<String, String> lhm = new LinkedHashMap<>();
-        lhm.put("message", "User with this username already exists!");
+    // 2. Get Specific User By ID
 
-        return ResponseEntity.status(400).body(lhm);
+    @GetMapping(value = "/{id}")
+    public User getUser(@PathVariable Long id){
+        return userService.getUserById(id);
     }
 
-    // 5. Change Password
 
-    @PutMapping("/user/{username}")
-    public ResponseEntity<User> changePassword(@RequestBody User user, @PathVariable String username) {
-        User requestUser =  userService.getUserByUsernameU(username);
-        requestUser.setPassword(user.getPassword());
-        return ResponseEntity.status(200).body(userService.saveUser(requestUser));
+    // 3. Save User
+
+    @PostMapping()
+    public User saveUser(@RequestBody User user){
+        return userService.saveUser(user);
+    }
+
+    // 4. Update Specific User By ID
+
+    @PutMapping(value = "/{id}")
+    public User updateUser(@RequestBody User user, @PathVariable Long id) {
+        User updatedUser = userService.getUserById(id);
+        updatedUser.setName(user.getName());
+        return userService.saveUser(updatedUser);
     };
 
-    // 6. Delete User
+    // 5. Delete Specific User By ID
 
-    @DeleteMapping("user/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable Long id){
-        User deleteUser = userService.getUserById(id);
+    @DeleteMapping(value = "/{id}")
+    public User deleteUser(@PathVariable Long id){
+        User deletedUser = userService.getUserById(id);
         userService.deleteUser(id);
-        return ResponseEntity.status(204).build();
+        return deletedUser;
     }
 
-    // 7. Login
+    // 6. Login
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest){
+        User user = userService.getUserByUsername(loginRequest.getUsername());
+        if (Objects.equals(user.getPassword(), loginRequest.getPassword())) {
+            return ResponseEntity.ok().body(user) ;
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
 
 
-    @PostMapping("/user/Login")
-    public  ResponseEntity<?> login(@RequestBody LoginRequest loginRequest)
-    {
-        Authentication authentication = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = (User) authentication.getPrincipal();
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie((User) userDetails);
-        String accessToken = jwtUtils.generateTokenFromUsername(user.getUsername());
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .header(HttpHeaders.SET_COOKIE, accessToken.toString())
-                .body(accessToken);
     }
-
-
-
-//     8. Add Role To a User
-//    @PutMapping("/role/addToUser")
-//    public ResponseEntity<?> addRoleToUser(@RequestBody RoleUserForm form){
-//        roleService.addRoleToUser(form.getUsername(), form.getRoleName());
-//        return  ResponseEntity.ok().build();
-//
-//    }
-
-
-
 
 }
-
 
 
 

@@ -12,18 +12,23 @@ public class BloodTypeService {
     @Autowired
     BloodTypeRepository bloodTypeRepository;
 
+
+    // 1. Get All Blood Types
     public List<BloodType> getAllBloodTypes(){
         return bloodTypeRepository.findAll();
     }
 
+    // 2. Get Specific Blood Type By ID
 
     public BloodType getBloodTypeById(Long id){
         return bloodTypeRepository.findById(id).get();
     }
+    // 3. Save Blood Type
 
     public BloodType saveBloodType(BloodType bloodType){
         return bloodTypeRepository.save(bloodType);
     }
+    // 4. Delete Specific Blood Type By ID
 
     public void deleteBloodType(Long id){
         bloodTypeRepository.deleteById(id);

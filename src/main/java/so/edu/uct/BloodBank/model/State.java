@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonManagedReference;
-import java.time.LocalDateTime;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import java.sql.Date;
 import java.util.List;
 @Entity
 @Data
@@ -34,6 +37,9 @@ public class State {
             cascade = CascadeType.ALL)
     private List<Receipt> receipts;
 
-    @Column(name="created_at")
-    private LocalDateTime createdAt;
+    @CreationTimestamp
+    private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }

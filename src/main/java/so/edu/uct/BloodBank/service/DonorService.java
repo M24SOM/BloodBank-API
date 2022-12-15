@@ -14,38 +14,40 @@ public class DonorService {
     @Autowired
     DonorRepository donorRepository;
 
+    // 1. Get All Donors
+
+
     public List<Donor> getAllDonors(){
         return donorRepository.findAll();
     }
+    // 2. Get Specific Donor By ID
 
     public Donor getDonorById(Long id){
         return donorRepository.findById(id).get();
     }
+    // 3. Get Specific Donor By phone
 
     public List<Donor> getDonorByMobileNo(String phone){
         return donorRepository.findByMobileNo(phone);
     }
 
-//    public List<DonorDTO> getDonorByState(Long query){
-//        DonorDTO donorDTO =  donorRepository.findByState(query).stream()
-//                .map(donors -> {
-//                    DonorDTO donorDTO1 = new DonorDTO();
-//                    donorDTO1.setName(donors.getName());
-//                    donorDTO1.setState(donors.getState().getName());
-//                    return donorDTO1;
-//                } ).collect(Collectors.toList());
-//        return ;
-//    }
+    // 4. Save Receipt
 
-    public Long sumOfDonor(){
-        return donorRepository.sumOfDonor();
-    }
 
     public Donor saveDonor(Donor donor){
         return donorRepository.save(donor);
     }
 
+
+    // 5. Delete Specific Donor By ID
     public void deleteDonor(Long id){
         donorRepository.deleteById(id);
+    }
+
+
+    // 6. Get Sum of Donor For Dashboard
+
+    public Long sumOfDonor(){
+        return donorRepository.sumOfDonor();
     }
 }

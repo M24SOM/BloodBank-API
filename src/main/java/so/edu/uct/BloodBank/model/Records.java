@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.codehaus.jackson.annotate.JsonBackReference;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.sql.Date;
 
 
@@ -18,19 +21,22 @@ public class Records {
 
     private int cc;
 
-    private String type;
-
     @JsonBackReference
     @ManyToOne(optional = false)
-    @JoinColumn(name="bloodTypeId", referencedColumnName = "id")
+    @JoinColumn(name="bloodTypeId", referencedColumnName = "id", nullable = false)
     BloodType bloodType;
 
     @JsonBackReference
     @ManyToOne(optional = false)
-    @JoinColumn(name="receiptId", referencedColumnName = "id")
+    @JoinColumn(name="receiptId", referencedColumnName = "id", nullable = false)
     Receipt receipt;
 
-    @Column(name="created_at")
+    private Date date;
+
+    @CreationTimestamp
     private Date createdAt;
+
+    @UpdateTimestamp
+    private Date updatedAt;
 }
 

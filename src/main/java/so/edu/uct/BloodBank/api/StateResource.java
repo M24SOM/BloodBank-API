@@ -6,34 +6,46 @@ import so.edu.uct.BloodBank.service.StateService;
 
 import java.util.List;
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/state")
+@RequestMapping("/state")
 public class StateResource {
     @Autowired
     StateService stateService;
 
-    @GetMapping("/state")
+    // 1. Get All States
+
+    @GetMapping()
     public List<State> allStates(){
         return stateService.getAllStates();
     }
 
-    @GetMapping("/state/{id}")
+
+    // 2. Get Specific State By ID
+
+    @GetMapping(value = "/{id}")
     public State getState(@PathVariable Long id){
         return stateService.getStateById(id);
     }
 
-    @PostMapping("/state")
+
+    // 3. Save State
+
+    @PostMapping()
     public State saveState(@RequestBody State state){
         return stateService.saveState(state);
     }
 
-    @PutMapping("/state/{id}")
+    // 4. Update Specific State By ID
+
+    @PutMapping(value = "/{id}")
     public State updateState(@RequestBody State state, @PathVariable Long id) {
-        State Upstate = stateService.getStateById(id);
-        Upstate.setName(state.getName());
-        return stateService.saveState(Upstate);
+        State updatedState = stateService.getStateById(id);
+        updatedState.setName(state.getName());
+        return stateService.saveState(updatedState);
     };
 
-    @DeleteMapping("state/{id}")
+    // 5. Delete Specific State By ID
+
+    @DeleteMapping(value = "/{id}")
     public State deleteState(@PathVariable Long id){
         State deleteState = stateService.getStateById(id);
         stateService.deleteState(id);

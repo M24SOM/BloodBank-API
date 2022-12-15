@@ -12,23 +12,35 @@ public class HospitalService {
     @Autowired
     HospitalRepository hospitalRepository;
 
+    // 1. Get All Hospitals
 
     public List<Hospital> getAllHospitals(){
         return hospitalRepository.findAll();
     }
-    public Long sumOfHospital(){
-        return hospitalRepository.sumOfHospital();
-    }
+
+    // 2. Get Specific Hospital By ID
+
 
     public Hospital getHospitalById(Long id){
         return hospitalRepository.findById(id).get();
     }
 
+    // 3. Save Donation
+
     public Hospital saveHospital(Hospital hospital){
         return hospitalRepository.save(hospital);
     }
 
+    // 4. Delete Specific Hospital By ID
+
     public void deleteHospital(Long id){
         hospitalRepository.deleteById(id);
+    }
+
+
+    // 5. Get Sum of Hospital For Dashboard
+
+    public Long sumOfHospital(){
+        return hospitalRepository.sumOfHospital();
     }
 }

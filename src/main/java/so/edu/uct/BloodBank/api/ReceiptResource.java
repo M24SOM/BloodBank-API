@@ -8,43 +8,57 @@ import so.edu.uct.BloodBank.service.ReceiptService;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/receipt")
+@RequestMapping("/receipt")
 public class ReceiptResource {
     @Autowired
     ReceiptService receiptService;
 
-    @GetMapping("/receipt")
+    // 1. Get All Receipts
+
+    @GetMapping()
     public List<Receipt> allReceipt(){
         return receiptService.getAllReceipts();
     }
 
-    @GetMapping("/receipt/{id}")
+    // 2. Get Specific Receipt By ID
+
+    @GetMapping(value = "/{id}")
     public Receipt getReceipt(@PathVariable Long id){
         return receiptService.getReceiptById(id);
     }
 
-    @GetMapping("/receipt/phone/{phone}")
+    // 3. Get Specific Receipt By phone
+
+    @GetMapping(value = "/phone/{phone}")
     public List<Receipt> getReceiptByPhone(@PathVariable String phone){
         return receiptService.getReceiptByPhone(phone);
     }
+    // 4. Save Receipt
 
-    @PostMapping("/receipt")
+    @PostMapping()
     public Receipt saveReceipt(@RequestBody Receipt receipt){
         return receiptService.saveReceipt(receipt);
     }
 
-    @PutMapping("/receipt/{id}")
+
+    // 5. Update Specific Receipt By ID
+
+
+    @PutMapping(value = "/{id}")
     public Receipt updateReceipt(@RequestBody Receipt receipt, @PathVariable Long id) {
-        Receipt UpReceipt = receiptService.getReceiptById(id);
-        UpReceipt.setName(receipt.getName());
-        UpReceipt.setDateBirth(receipt.getDateBirth());
-        UpReceipt.setMobileNo(receipt.getMobileNo());
-        UpReceipt.setBloodType(receipt.getBloodType());
-        UpReceipt.setState(receipt.getState());
-        return receiptService.saveReceipt(UpReceipt);
+        Receipt updatedReceipt = receiptService.getReceiptById(id);
+        updatedReceipt.setName(receipt.getName());
+        updatedReceipt.setDateBirth(receipt.getDateBirth());
+        updatedReceipt.setMobileNo(receipt.getMobileNo());
+        updatedReceipt.setBloodType(receipt.getBloodType());
+        updatedReceipt.setState(receipt.getState());
+        return receiptService.saveReceipt(updatedReceipt);
     };
 
-    @DeleteMapping("receipt/{id}")
+    // 6. Delete Receipt Donor By ID
+
+
+    @DeleteMapping(value = "/{id}")
     public Receipt deleteReceipt(@PathVariable Long id){
         Receipt deleteReceipt = receiptService.getReceiptById(id);
         receiptService.deleteReceipt(id);

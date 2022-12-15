@@ -8,48 +8,55 @@ import so.edu.uct.BloodBank.service.DonationService;
 import java.util.List;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-//@RequestMapping("/donation")
+@RequestMapping("/donation")
 public class DonationResource {
     @Autowired
     DonationService donationService;
 
-    @GetMapping("/donation")
+    // 1. Get All Donations
+
+    @GetMapping()
     public List<Donation> allDonations(){
         return donationService.getAllDonations();
     }
 
-    @GetMapping("/donation/{id}")
+    // 2. Get Specific Donation By ID
+
+    @GetMapping(value = "/{id}")
     public Donation getDonation(@PathVariable Long id){
         return donationService.getDonationById(id);
     }
 
+    // 3. Save Donation
 
-    @PostMapping("/donation/add")
+    @PostMapping(value = "/add")
     public Donation saveDonation(@RequestBody Donation donation){
 
         return donationService.saveDonation(donation);
     }
+    // 4. Update Specific Donation By ID
 
-    @PutMapping("/donation/{id}")
+    @PutMapping(value = "/{id}")
     public Donation updateDonation(@RequestBody Donation donation, @PathVariable Long id) {
-        Donation UpDonation = donationService.getDonationById(id);
-        UpDonation.setCc(donation.getCc());
-        UpDonation.setBloodType(donation.getBloodType());
-        UpDonation.setDonor(donation.getDonor());
-        UpDonation.setType(donation.getType());
-        UpDonation.setDate(donation.getDate());
-        return donationService.saveDonation(UpDonation);
+        Donation updatedDonation = donationService.getDonationById(id);
+        updatedDonation.setCc(donation.getCc());
+        updatedDonation.setBloodType(donation.getBloodType());
+        updatedDonation.setDonor(donation.getDonor());
+        updatedDonation.setDate(donation.getDate());
+        return donationService.saveDonation(updatedDonation);
     };
+    // 5. Delete Specific Donation By ID
 
-    @DeleteMapping("donation/{id}")
+    @DeleteMapping(value = "/{id}")
     public Donation deleteDonation(@PathVariable Long id){
         Donation deleteDonor = donationService.getDonationById(id);
         donationService.deleteDonation(id);
         return deleteDonor;
     }
 
-    @GetMapping("/donation/bloodTypeCc/{query}")
-    public Long getDonationBloodTypeCc(@PathVariable Long query){
+    // 6. Get Sum of Donation Cc // Test
+    @GetMapping(value = "/bloodTypeCc")
+    public Long getDonationBloodTypeCc(){
         System.out.println(donationService.getDonationBloodTypeCc());
         return donationService.getDonationBloodTypeCc();
     }
