@@ -62,7 +62,7 @@ public class UserResource {
             System.out.println(response);
             return ResponseEntity.status(404).body(response);
         }
-        updatedUser.setName(user.getName());
+        updatedUser.setPassword(user.getPassword());
         return ResponseEntity.ok().body(userService.saveUser(updatedUser));
     };
 
@@ -92,10 +92,7 @@ public class UserResource {
         } else {
             return ResponseEntity.badRequest().build();
         }
-
-
     }
-
 }
 
 

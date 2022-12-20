@@ -42,7 +42,6 @@ public class DashboardResource {
         Long sumOfHospital = hospitalService.sumOfHospital();
         Long sumOfDonor = donorService.sumOfDonor();
         Long sumOfReceipt = receiptService.sumOfReceipt();
-
             if(sumOfReceipt != null && sumOfDonor != null && sumOfHospital != null ){
                 if(ccDonation != null && ccRecord != null){
                     String numOfCc = String.valueOf(ccDonation - ccRecord);
@@ -66,6 +65,11 @@ public class DashboardResource {
         map.put("Receipts",  String.valueOf(0) );
         map.put("CC", String.valueOf(0));
         map.put("Hospital",  String.valueOf(0));
+        String numOfCc = String.valueOf(ccDonation - ccRecord);
+        map.put("Donor", String.valueOf(sumOfDonor) == null ? String.valueOf(0) : String.valueOf(sumOfDonor) );
+        map.put("Receipts", String.valueOf(sumOfReceipt) == null ? String.valueOf(0) : String.valueOf(sumOfReceipt) );
+        map.put("CC", numOfCc == null ? String.valueOf(0) : numOfCc);
+        map.put("Hospital", String.valueOf(sumOfHospital) == null ? String.valueOf(0) : String.valueOf(sumOfHospital));
         System.out.println(map);
         return ResponseEntity.ok().body(map);
 
