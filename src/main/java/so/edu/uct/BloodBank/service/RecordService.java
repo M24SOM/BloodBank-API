@@ -8,6 +8,7 @@ import so.edu.uct.BloodBank.repository.DonationRepository;
 import so.edu.uct.BloodBank.repository.RecordsRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RecordService {
@@ -23,6 +24,11 @@ public class RecordService {
     // 2. Get Specific Record By ID
 
     public Records getRecordById(Long id){
+
+        Optional<Records> getRecordById = recordsRepository.findById(id);
+        if (getRecordById.isEmpty()){
+            return null;
+        }
         return recordsRepository.findById(id).get();
     }
 
@@ -40,7 +46,17 @@ public class RecordService {
 
     // 5. Get Sum of Record Cc For Dashboard
 
-    public Long getRecordBloodTypeCc(){
-        return recordsRepository.findByBloodType();
+
+    public String getRecordBloodTypeCc(){
+        Long getRecordBloodTypeCc = recordsRepository.findByBloodType();
+        if (getRecordBloodTypeCc == null){
+            return "0";
+        }
+        return recordsRepository.findByBloodType().toString();
+    }
+
+    // 6. Get Receipts in Records
+    public List<Records> getDonorPerRecords(String receipt){
+        return recordsRepository.findByReceipt(receipt);
     }
 }

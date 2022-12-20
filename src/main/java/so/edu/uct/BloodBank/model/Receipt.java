@@ -28,8 +28,13 @@ public class Receipt {
 
     @JsonBackReference
     @ManyToOne(optional = false)
-    @JoinColumn(name="State_Id", referencedColumnName = "id")
+    @JoinColumn(name="StateId", referencedColumnName = "id")
     State state;
+
+    @JsonBackReference
+    @ManyToOne(optional = false)
+    @JoinColumn(name="HospitalId", referencedColumnName = "id")
+    Hospital hospital;
 
     @CreationTimestamp
     private Date createdAt;

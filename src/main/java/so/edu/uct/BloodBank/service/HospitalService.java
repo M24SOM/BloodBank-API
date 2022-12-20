@@ -2,10 +2,12 @@ package so.edu.uct.BloodBank.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import so.edu.uct.BloodBank.model.Donor;
 import so.edu.uct.BloodBank.model.Hospital;
 import so.edu.uct.BloodBank.repository.HospitalRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class HospitalService {
@@ -22,6 +24,10 @@ public class HospitalService {
 
 
     public Hospital getHospitalById(Long id){
+        Optional<Hospital> getHospitalById = hospitalRepository.findById(id);
+        if (getHospitalById.isEmpty()){
+            return null;
+        }
         return hospitalRepository.findById(id).get();
     }
 
@@ -42,5 +48,11 @@ public class HospitalService {
 
     public Long sumOfHospital(){
         return hospitalRepository.sumOfHospital();
+    }
+
+    // 8. Get Specific Donor By State
+
+    public List<Hospital> getDonorByState(String state){
+        return hospitalRepository.findByState(state);
     }
 }

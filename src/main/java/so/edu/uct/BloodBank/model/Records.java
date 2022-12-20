@@ -23,11 +23,6 @@ public class Records {
 
     @JsonBackReference
     @ManyToOne(optional = false)
-    @JoinColumn(name="bloodTypeId", referencedColumnName = "id", nullable = false)
-    BloodType bloodType;
-
-    @JsonBackReference
-    @ManyToOne(optional = false)
     @JoinColumn(name="receiptId", referencedColumnName = "id", nullable = false)
     Receipt receipt;
 

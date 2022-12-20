@@ -17,13 +17,7 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private int cc;
-
-    @JsonBackReference
-    @ManyToOne(optional = false)
-    @JoinColumn(name="bloodTypeId", referencedColumnName = "id", nullable = false)
-    BloodType bloodType;
 
     @JsonBackReference
     @ManyToOne(optional = false)

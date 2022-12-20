@@ -7,6 +7,7 @@ import so.edu.uct.BloodBank.model.Donor;
 import so.edu.uct.BloodBank.model.State;
 import so.edu.uct.BloodBank.repository.DonorRepository;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -23,11 +24,19 @@ public class DonorService {
     // 2. Get Specific Donor By ID
 
     public Donor getDonorById(Long id){
+        Optional<Donor> getDonorById = donorRepository.findById(id);
+        if (getDonorById.isEmpty()){
+            return null;
+        }
         return donorRepository.findById(id).get();
     }
     // 3. Get Specific Donor By phone
 
     public List<Donor> getDonorByMobileNo(String phone){
+        List<Donor> getDonorByMobileNo = donorRepository.findByMobileNo(phone);
+        if (getDonorByMobileNo.isEmpty()){
+            return null;
+        }
         return donorRepository.findByMobileNo(phone);
     }
 
@@ -49,5 +58,17 @@ public class DonorService {
 
     public Long sumOfDonor(){
         return donorRepository.sumOfDonor();
+    }
+
+    // 7. Get Specific Donor By Blood Type
+
+    public List<Donor> getDonorByBloodType(String bloodType){
+        return donorRepository.findByBloodType(bloodType);
+    }
+
+    // 8. Get Specific Donor By State
+
+    public List<Donor> getDonorByState(String state){
+        return donorRepository.findByState(state);
     }
 }

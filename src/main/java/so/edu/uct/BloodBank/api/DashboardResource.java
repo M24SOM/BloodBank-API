@@ -35,20 +35,40 @@ public class DashboardResource {
     // 5. Number of Hospitals = Sum of Hospitals in Hospital
 
     @GetMapping()
-    public Map dashboard(){
+    public ResponseEntity<?> dashboard(){
         Map<String, String> map = new HashMap<>();
-        Long ccDonation = donationService.getDonationBloodTypeCc();
-        Long ccRecord = recordService.getRecordBloodTypeCc();
+        Long ccDonation = Long.valueOf(donationService.getDonationBloodTypeCc());
+        Long ccRecord = Long.valueOf(recordService.getRecordBloodTypeCc());
         Long sumOfHospital = hospitalService.sumOfHospital();
         Long sumOfDonor = donorService.sumOfDonor();
         Long sumOfReceipt = receiptService.sumOfReceipt();
-        String numOfCc = String.valueOf(ccDonation - ccRecord);
-        map.put("Donor", String.valueOf(sumOfDonor) == null ? String.valueOf(0) : String.valueOf(sumOfDonor) );
-        map.put("Receipts", String.valueOf(sumOfReceipt) == null ? String.valueOf(0) : String.valueOf(sumOfReceipt) );
-        map.put("CC ", numOfCc == null ? String.valueOf(0) : numOfCc);
-        map.put("Hospital  ", String.valueOf(sumOfHospital) == null ? String.valueOf(0) : String.valueOf(sumOfHospital));
+
+            if(sumOfReceipt != null && sumOfDonor != null && sumOfHospital != null ){
+                if(ccDonation != null && ccRecord != null){
+                    String numOfCc = String.valueOf(ccDonation - ccRecord);
+                map.put("Donor",  String.valueOf(sumOfDonor) );
+                map.put("Receipts",  String.valueOf(sumOfReceipt) );
+                map.put("CC", numOfCc);
+                map.put("Hospital",  String.valueOf(sumOfHospital));
+                System.out.println(map);
+                return ResponseEntity.ok().body(map);
+            } else{
+                    map.put("Donor",  String.valueOf(sumOfDonor) );
+                    map.put("Receipts",  String.valueOf(sumOfReceipt) );
+                    map.put("CC", String.valueOf(0));
+                    map.put("Hospital",  String.valueOf(sumOfHospital));
+                    System.out.println(map);
+                    return ResponseEntity.ok().body(map);
+                }
+
+        }
+        map.put("Donor",  String.valueOf(0) );
+        map.put("Receipts",  String.valueOf(0) );
+        map.put("CC", String.valueOf(0));
+        map.put("Hospital",  String.valueOf(0));
         System.out.println(map);
-        return map;
+        return ResponseEntity.ok().body(map);
+
     }
 
 
