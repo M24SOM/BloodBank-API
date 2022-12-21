@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController @CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/dashboard")
+@RequestMapping("/")
 public class DashboardResource {
     @Autowired
     RecordService recordService;
@@ -34,10 +34,10 @@ public class DashboardResource {
     // 4. Number of Receipts = Sum of Receipts in Receipt
     // 5. Number of Hospitals = Sum of Hospitals in Hospital
 
-    @GetMapping()
+    @GetMapping(value = "/dashboard")
     public ResponseEntity<?> dashboard(){
         Map<String, String> map = new HashMap<>();
-        Long ccDonation = Long.valueOf(donationService.getDonationBloodTypeCc());
+        Long ccDonation = Long.valueOf(donationService.getDonationBCc());
         Long ccRecord = Long.valueOf(recordService.getRecordBloodTypeCc());
         Long sumOfHospital = hospitalService.sumOfHospital();
         Long sumOfDonor = donorService.sumOfDonor();
@@ -75,7 +75,25 @@ public class DashboardResource {
 
     }
 
+    @GetMapping(value = "/searchBloodType/{id}")
+    public ResponseEntity<?> searchBloodType(@PathVariable Long id){
+        Map<String, String> map = new HashMap<>();
+        Long ccDonationBloodType = Long.valueOf(donationService.getDonationBloodType(id.toString()));
+        Long ccRecordBloodType = Long.valueOf(recordService.getRecordsBloodType(id.toString()));
+        System.out.println(ccDonationBloodType);
+        System.out.println(ccRecordBloodType);
+            if(ccDonationBloodType != null && ccRecordBloodType != null){
+                String numOfCc = String.valueOf(ccDonationBloodType - ccRecordBloodType);
+                map.put("CC", numOfCc);
+                System.out.println(map);
+                return ResponseEntity.ok().body(map);
+            } else{
+                map.put("CC", String.valueOf(0));
+                System.out.println(map);
+                return ResponseEntity.ok().body(map);
+            }
 
+        }
 }
 
 

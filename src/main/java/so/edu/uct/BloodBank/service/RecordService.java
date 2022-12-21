@@ -59,4 +59,15 @@ public class RecordService {
     public List<Records> getDonorPerRecords(String receipt){
         return recordsRepository.findByReceipt(receipt);
     }
+
+
+    // 7. Get BloodType
+
+    public String getRecordsBloodType(String bloodType){
+        Long getDonationBloodTypeCc = recordsRepository.findByBloodType(bloodType);
+        if (getDonationBloodTypeCc == null){
+            return "0";
+        }
+        return recordsRepository.findByBloodType(bloodType).toString();
+    }
 }

@@ -45,17 +45,27 @@ public class DonationService {
 
     // 5. Get Sum of Donation Cc For Dashboard
 
-    public String getDonationBloodTypeCc(){
-        Long getDonationBloodTypeCc = donationRepository.findByBloodType();
+    public String getDonationBCc(){
+        Long getDonationBloodTypeCc = donationRepository.findByCc();
         if (getDonationBloodTypeCc == null){
             return "0";
         }
-        return donationRepository.findByBloodType().toString();
+        return donationRepository.findByCc().toString();
     }
 
     // 6. Get Donors in Donation
     public List<Donation> getDonorPerDonation(String donor){
         return donationRepository.findByDonor(donor);
+    }
+
+    // 7. Get BloodType
+
+    public String getDonationBloodType(String bloodType){
+        Long getDonationBloodTypeCc = donationRepository.findByBloodType(bloodType);
+        if (getDonationBloodTypeCc == null){
+            return "0";
+        }
+        return donationRepository.findByBloodType(bloodType).toString();
     }
 
 }

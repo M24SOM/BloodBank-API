@@ -128,7 +128,7 @@ public class DonationResource {
     // 6. Get Sum of Donation Cc // Test
     @GetMapping(value = "/bloodTypeCc")
     public String getDonationBloodTypeCc(){
-        return donationService.getDonationBloodTypeCc().toString();
+        return donationService.getDonationBCc().toString();
     }
 
 }
